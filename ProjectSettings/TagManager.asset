@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ladder
   - Ghost
+  - Empty Room
   layers:
   - Default
   - TransparentFX
