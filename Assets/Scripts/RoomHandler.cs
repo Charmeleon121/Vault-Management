@@ -57,16 +57,16 @@ public class RoomHandler : MonoBehaviour {
 			GameObject closestRoom = closestRoomData.Item1;
 			int roomYPos = closestRoomData.Item2;
 
+			int doorSide; // 0 for left, 1 for right
 			Vector3 snapPosition;
 			if (worldPos.z < closestRoom.transform.position.z) {
 				// Place to the right of the closest room
 				snapPosition = new Vector3(0f, closestRoom.transform.position.y, (closestRoom.transform.position.z - (closestRoom.transform.localScale.z * 2f)) - (activeGhost.transform.localScale.z * 2f));
-			} else if (worldPos.z > closestRoom.transform.position.z) {
+				doorSide = 1;
+			} else {
 				// Place to the left of the closest room
 				snapPosition = new Vector3(0f, closestRoom.transform.position.y, (closestRoom.transform.position.z + (closestRoom.transform.localScale.z * 2f)) + (activeGhost.transform.localScale.z * 2f));
-			} else {
-				// Place beneath the closest room
-				snapPosition = new Vector3(0f, closestRoom.transform.position.y - 2f, closestRoom.transform.position.z);
+				doorSide = 0;
 			}
 		
 			activeGhost.transform.position = snapPosition;
@@ -74,6 +74,10 @@ public class RoomHandler : MonoBehaviour {
 			if (clickAction.triggered) {
 				GameObject room = Instantiate(normalRoomPrefab, snapPosition, Quaternion.Euler(0f, 0f, 0f));
 				room.GetComponent<Room>().ID = currentMaxID + 1;
+
+				// Destroy the door closest to the newly placed room
+				DestroyImmediate(closestRoom.transform.GetChild(doorSide).gameObject);
+				DestroyImmediate(room.transform.GetChild(Mathf.Abs(doorSide - 1)).gameObject); // Mathf.Abs(doorSide - 1) ensures the opposite door is destroyed on the new room
 
 				if (layers.Count < roomYPos) {
 					List<GameObject> layer = new List<GameObject>();
