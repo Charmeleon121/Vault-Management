@@ -5,8 +5,11 @@ using TMPro;
 public class UIHandler : MonoBehaviour {
 	// Input System object
 	private InputSystem_Actions keybinds;
-	
-	// Where to display the current FPS
+
+	// Player object
+	private Player player;
+
+	// Text objects on the UI
 	public TextMeshProUGUI fpsDisplay;
 	
 	// Build menu
@@ -19,6 +22,8 @@ public class UIHandler : MonoBehaviour {
 	void Start() {
 		keybinds = new();
 		keybinds.Player.Enable();
+
+		player = GameObject.Find("Main Camera").GetComponent<Player>();
 		
 		buildMenuAction = InputSystem.actions.FindAction("Player/BuildMenu");
 		
@@ -35,19 +40,23 @@ public class UIHandler : MonoBehaviour {
 	 * - Handle the update timer to ensure UI elements aren't updating every frame
 	 */
 	void Update() {
+		ToggleBuildMenu();
+
+		if (updateTimer == 30) {
+			DisplayFPS();
+			updateTimer = 0;
+		} else {
+			++updateTimer;
+		}
+	}
+
+	private void ToggleBuildMenu() {
 		if (buildMenuAction.triggered) {
 			if (buildMenu.transform.position.x == 200f) {
 				buildMenu.transform.position = new Vector3(-200f, 540, 0f);
 			} else {
 				buildMenu.transform.position = new Vector3(200f, 540, 0f);
 			}
-		}
-		
-		if (updateTimer == 30) {
-			DisplayFPS();
-			updateTimer = 0;
-		} else {
-			++updateTimer;
 		}
 	}
 	

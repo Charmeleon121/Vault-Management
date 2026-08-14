@@ -10,6 +10,9 @@ public class Player : MonoBehaviour {
 	private InputAction moveAction;
 	private readonly float speed = 0.25f;
 
+	// Pause state
+	private bool isPaused;
+
 	/*
 	 * On Awake:
 	 * 
@@ -26,23 +29,37 @@ public class Player : MonoBehaviour {
 	/*
 	 * On Start:
 	 * 
-	 * - Instantiate the movement action (WASD/joystick/etc.) from the Input System
+	 * - Instantiate the Input System actions
+	 * - Unpause the game
+	 * - Set the game speed to 1x
 	 */
 	void Start() {
 		moveAction = InputSystem.actions.FindAction("Player/Move");
+
+		isPaused = false;
 	}
 
 	/*
 	 * On FixedUpdate:
 	 * 
 	 * - Move the camera
+	 * - Allow the player to change the game speed (options: 1x, 2x, 5x, 10x)
 	 */
 	void FixedUpdate() {
+		Move();
+	}
+
+	private void Move() {
 		Vector2 inputVector = moveAction.ReadValue<Vector2>();
 		Vector3 moveVector = (transform.up * inputVector.y) + (transform.right * inputVector.x);
 
 		if (moveVector.magnitude > 0f) {
 			transform.position += speed * moveVector.normalized;
 		}
+	}
+
+	private void SwapPauseState() {
+		isPaused = !isPaused;
+		Time.timeScale = Convert.ToInt32(isPaused);
 	}
 }

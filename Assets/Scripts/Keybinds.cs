@@ -127,6 +127,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpeedTime"",
+                    ""type"": ""Button"",
+                    ""id"": ""b3616502-8b58-4461-a999-8f131f50fa62"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SlowTime"",
+                    ""type"": ""Button"",
+                    ""id"": ""65e22eca-79c0-4a62-a4c3-d1b8e1625267"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -314,6 +332,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5f696b9-82e6-4e1a-bfd2-87613e5bf3f4"",
+                    ""path"": ""<Keyboard>/period"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SpeedTime"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b74d009c-aa4e-4a0d-9de6-3c7762c5b7c5"",
+                    ""path"": ""<Keyboard>/comma"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SlowTime"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -905,6 +945,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_BuildMenu = m_Player.FindAction("BuildMenu", throwIfNotFound: true);
         m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
+        m_Player_SpeedTime = m_Player.FindAction("SpeedTime", throwIfNotFound: true);
+        m_Player_SlowTime = m_Player.FindAction("SlowTime", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1002,6 +1044,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_BuildMenu;
     private readonly InputAction m_Player_Click;
+    private readonly InputAction m_Player_SpeedTime;
+    private readonly InputAction m_Player_SlowTime;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1029,6 +1073,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Click".
         /// </summary>
         public InputAction @Click => m_Wrapper.m_Player_Click;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SpeedTime".
+        /// </summary>
+        public InputAction @SpeedTime => m_Wrapper.m_Player_SpeedTime;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SlowTime".
+        /// </summary>
+        public InputAction @SlowTime => m_Wrapper.m_Player_SlowTime;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1067,6 +1119,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Click.started += instance.OnClick;
             @Click.performed += instance.OnClick;
             @Click.canceled += instance.OnClick;
+            @SpeedTime.started += instance.OnSpeedTime;
+            @SpeedTime.performed += instance.OnSpeedTime;
+            @SpeedTime.canceled += instance.OnSpeedTime;
+            @SlowTime.started += instance.OnSlowTime;
+            @SlowTime.performed += instance.OnSlowTime;
+            @SlowTime.canceled += instance.OnSlowTime;
         }
 
         /// <summary>
@@ -1090,6 +1148,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Click.started -= instance.OnClick;
             @Click.performed -= instance.OnClick;
             @Click.canceled -= instance.OnClick;
+            @SpeedTime.started -= instance.OnSpeedTime;
+            @SpeedTime.performed -= instance.OnSpeedTime;
+            @SpeedTime.canceled -= instance.OnSpeedTime;
+            @SlowTime.started -= instance.OnSlowTime;
+            @SlowTime.performed -= instance.OnSlowTime;
+            @SlowTime.canceled -= instance.OnSlowTime;
         }
 
         /// <summary>
@@ -1418,6 +1482,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnClick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SpeedTime" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSpeedTime(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SlowTime" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSlowTime(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
