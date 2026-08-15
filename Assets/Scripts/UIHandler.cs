@@ -6,11 +6,8 @@ public class UIHandler : MonoBehaviour {
 	// Input System object
 	private InputSystem_Actions keybinds;
 
-	// Player object
-	private Player player;
-
 	// Text objects on the UI
-	public TextMeshProUGUI fpsDisplay;
+	public TextMeshProUGUI fpsDisplay, storageDisplay, IODisplay;
 	
 	// Build menu
 	private InputAction buildMenuAction;
@@ -23,8 +20,6 @@ public class UIHandler : MonoBehaviour {
 		keybinds = new();
 		keybinds.Player.Enable();
 
-		player = GameObject.Find("Main Camera").GetComponent<Player>();
-		
 		buildMenuAction = InputSystem.actions.FindAction("Player/BuildMenu");
 		
 		updateTimer = 0;
@@ -42,7 +37,7 @@ public class UIHandler : MonoBehaviour {
 	void Update() {
 		ToggleBuildMenu();
 
-		if (updateTimer == 30) {
+		if (updateTimer == Mathf.RoundToInt(Application.targetFrameRate / 2)) {
 			DisplayFPS();
 			updateTimer = 0;
 		} else {
@@ -62,8 +57,7 @@ public class UIHandler : MonoBehaviour {
 	
 	private void DisplayFPS() {
 		float fpsValue = 1f / Time.deltaTime;
-		string fpsString = fpsValue.ToString("n2");
-		fpsDisplay.text = $"FPS: {fpsString}/{Application.targetFrameRate}";
+		fpsDisplay.text = $"FPS: {fpsValue:n2}/{Application.targetFrameRate}";
 			
 		if (fpsValue <= Application.targetFrameRate * 0.25f) {
 			fpsDisplay.color = Color.red;
@@ -74,5 +68,10 @@ public class UIHandler : MonoBehaviour {
 		} else {
 			fpsDisplay.color = Color.green;
 		}	
+	}
+
+	public void DisplayStoredAndIO(float storedPower, float maxPower, float powerIn, float powerOut, float storedFood, float maxFood, float storedWater, float maxWater) {
+		storageDisplay.text = $"Power: {storedPower:n2}/{maxPower:n2}\n\nFood:  {storedFood:n2}/{maxFood:n2}\n\nWater: {storedWater:n2}/{maxWater:n2}";
+		IODisplay.text = $"I: {powerIn:n2} | O: {powerOut:n2}";
 	}
 }

@@ -12,16 +12,18 @@ public class RoomHandler : MonoBehaviour {
 	// The highest valued ID currently in use - a new room would use this value + 1
 	private int currentMaxID;
 
-	private List<List<GameObject>> layers = new List<List<GameObject>>();
-	
+	private readonly List<List<GameObject>> layers = new List<List<GameObject>>();
+
 	// The room prefabs available
-	public GameObject normalRoomGhost;
-	public GameObject normalRoomPrefab;
-	
+	private GameObject normalRoomGhost, normalRoomPrefab;
+
 	/*
 	 * On Start:
 	 *
+	 * - Initialize the Input System and relevant available actions
 	 * - Initialize the maxID to 0 (replace this in future when loading saved games is implemented!)
+	 * - Make sure the starting room is added to the list of rooms
+	 * - Load the prefabs for room construction
 	 */
 	void Start() {
 		keybinds = new();
@@ -34,6 +36,9 @@ public class RoomHandler : MonoBehaviour {
 		List<GameObject> startLayer = new List<GameObject>();
 		startLayer.Add(GameObject.FindWithTag("Ladder"));
 		layers.Add(startLayer);
+
+		normalRoomGhost = Resources.Load<GameObject>("Prefabs/Normal Room Ghost");
+		normalRoomPrefab = Resources.Load<GameObject>("Prefabs/Normal Room");
 	}
 	
 	/*
@@ -61,11 +66,11 @@ public class RoomHandler : MonoBehaviour {
 			Vector3 snapPosition;
 			if (worldPos.z < closestRoom.transform.position.z) {
 				// Place to the right of the closest room
-				snapPosition = new Vector3(0f, closestRoom.transform.position.y, (closestRoom.transform.position.z - (closestRoom.transform.localScale.z * 2f)) - (activeGhost.transform.localScale.z * 2f));
+				snapPosition = new Vector3(0f, closestRoom.transform.position.y, (closestRoom.transform.position.z - closestRoom.transform.localScale.z) - (activeGhost.transform.localScale.z * 2f));
 				doorSide = 'R';
 			} else {
 				// Place to the left of the closest room
-				snapPosition = new Vector3(0f, closestRoom.transform.position.y, (closestRoom.transform.position.z + (closestRoom.transform.localScale.z * 2f)) + (activeGhost.transform.localScale.z * 2f));
+				snapPosition = new Vector3(0f, closestRoom.transform.position.y, (closestRoom.transform.position.z + closestRoom.transform.localScale.z) + (activeGhost.transform.localScale.z * 2f));
 				doorSide = 'L';
 			}
 		
