@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 273324328894753732}
   m_Layer: 0
-  m_Name: Normal Room Ghost
+  m_Name: Empty Room Ghost
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

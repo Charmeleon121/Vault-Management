@@ -15,7 +15,7 @@ public class RoomHandler : MonoBehaviour {
 	private readonly List<List<GameObject>> layers = new List<List<GameObject>>();
 
 	// The room prefabs available
-	private GameObject normalRoomGhost, normalRoomPrefab;
+	private GameObject emptyRoomGhost, emptyRoomPrefab;
 
 	/*
 	 * On Start:
@@ -37,8 +37,8 @@ public class RoomHandler : MonoBehaviour {
 		startLayer.Add(GameObject.FindWithTag("Ladder"));
 		layers.Add(startLayer);
 
-		normalRoomGhost = Resources.Load<GameObject>("Prefabs/Normal Room Ghost");
-		normalRoomPrefab = Resources.Load<GameObject>("Prefabs/Normal Room");
+		emptyRoomGhost = Resources.Load<GameObject>("Prefabs/Empty Room Ghost");
+		emptyRoomPrefab = Resources.Load<GameObject>("Prefabs/Empty Room");
 	}
 	
 	/*
@@ -77,7 +77,7 @@ public class RoomHandler : MonoBehaviour {
 			activeGhost.transform.position = snapPosition;
 			
 			if (clickAction.triggered) {
-				GameObject room = Instantiate(normalRoomPrefab, snapPosition, Quaternion.Euler(0f, 0f, 0f));
+				GameObject room = Instantiate(emptyRoomPrefab, snapPosition, Quaternion.Euler(0f, 0f, 0f));
 				room.GetComponent<Room>().ID = currentMaxID + 1;
 
 				// Destroy the door closest to the newly placed room
@@ -103,17 +103,15 @@ public class RoomHandler : MonoBehaviour {
 		}
 	}
 	
-	public void PlaceGhostRoom(int size) {
+	public void PlaceGhostRoom() {
 		Vector2 rawMousePos = Mouse.current.position.ReadValue();
 		float depth = Vector3.Dot(new Vector3(0f, 0f, 0f) - Camera.main.transform.position, Camera.main.transform.forward);
 		Vector3 mousePos = new Vector3(rawMousePos.x, rawMousePos.y, depth);
 		Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 		worldPos.x = 0f;
-		
-		if (size == 1) {
-			GameObject ghost = Instantiate(normalRoomGhost, worldPos, Quaternion.Euler(0f, 0f, 0f));
-			ghost.tag = "Ghost";
-		}
+
+		GameObject ghost = Instantiate(emptyRoomGhost, worldPos, Quaternion.Euler(0f, 0f, 0f));
+		ghost.tag = "Ghost";
 	}
 
 	private Tuple<GameObject, int> FindClosestRoom(Vector3 position) {
