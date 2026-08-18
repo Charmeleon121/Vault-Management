@@ -66,11 +66,11 @@ public class RoomHandler : MonoBehaviour {
 			Vector3 snapPosition;
 			if (worldPos.z < closestRoom.transform.position.z) {
 				// Place to the right of the closest room
-				snapPosition = new Vector3(0f, closestRoom.transform.position.y, (closestRoom.transform.position.z - closestRoom.transform.localScale.z) - (activeGhost.transform.localScale.z * 2f));
+				snapPosition = new Vector3(0f, closestRoom.transform.position.y, closestRoom.transform.position.z - (closestRoom.GetComponent<Room>().length + activeGhost.GetComponent<Room>().length));
 				doorSide = 'R';
 			} else {
 				// Place to the left of the closest room
-				snapPosition = new Vector3(0f, closestRoom.transform.position.y, (closestRoom.transform.position.z + closestRoom.transform.localScale.z) + (activeGhost.transform.localScale.z * 2f));
+				snapPosition = new Vector3(0f, closestRoom.transform.position.y, closestRoom.transform.position.z + (closestRoom.GetComponent<Room>().length + activeGhost.GetComponent<Room>().length));
 				doorSide = 'L';
 			}
 		

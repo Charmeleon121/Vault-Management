@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 273324328894753732}
+  - component: {fileID: -3512990521978834599}
   m_Layer: 0
   m_Name: Empty Room Ghost
   m_TagString: Ghost
@@ -34,6 +35,20 @@ Transform:
   - {fileID: 3265704901415170044}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3512990521978834599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612731080944791934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b96a06cdfeafc3448f4bce442750fec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Room
+  ID: -1
+  length: 2
 --- !u!1 &1237803964756787481
 GameObject:
   m_ObjectHideFlags: 0

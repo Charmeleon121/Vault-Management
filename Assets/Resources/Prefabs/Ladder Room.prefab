@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   ID: 0
+  length: 1
 --- !u!114 &1825164766330346386
 MonoBehaviour:
   m_ObjectHideFlags: 0
